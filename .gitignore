@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+*.bat
+nlp-project/Scripts/activate
+nlp-project/pyvenv.cfg
+nlp-project/Data_songtexts_genius.xml
+*.ps1
+*.exe
