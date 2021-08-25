@@ -2,6 +2,7 @@
 
 import spacy
 from collections import Counter
+import xml.etree.ElementTree as ET
 
 nlp = spacy.load(("en_core_web_sm"))
 
@@ -63,3 +64,37 @@ def find_main_adjectives(songtext):
     else:
         main_adjectives = find_most_used_adjectives(songtext)
     return main_adjectives
+
+
+# other functions, only work with XML
+
+def find_song_about(topic, root):
+    songs = []
+    for child in root:
+        songtext = child.find("songtext").text
+        main_topics = find_main_topics(songtext)
+
+        if topic in main_topics:
+            songname = "".join(child.attrib.values())
+            songs.append(songname)
+    return songs
+
+def find_topics_of_artist(artist, root):
+    topics = []
+    repeating_topics = []
+    for child in root:
+        artist_child = child.find("artist")
+        artist_value = "".join(artist_child.attrib.values())
+        if artist_value == artist:
+            songtext = child.find("songtext").text
+            main_topics = find_main_topics(songtext)
+            for topic in main_topics:
+                if topic in topics:
+                    repeating_topics.append(topic)
+                else:
+                    topics.append(topic)
+    return repeating_topics
+
+
+
+
