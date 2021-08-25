@@ -32,3 +32,34 @@ def find_main_topics(songtext):
     else:
         main_topics = find_fewer_topics(songtext)
     return main_topics
+
+
+# adjectives
+
+def get_adjectives(songtext):
+    doc = nlp(songtext.lower())
+    all_adjectives = [token.lemma_ for token in doc if token.pos_ == "ADJ"]
+    return all_adjectives
+
+def adjectives_sorted(songtext):
+    adjectives = get_adjectives(songtext)
+    sorted_adjectives = Counter(adjectives)
+    return sorted_adjectives
+    
+def find_repeated_adjectives(songtext):
+    adjectives = adjectives_sorted(songtext)
+    repeated_adjectives = [key for key, value  in adjectives.most_common() if value > 1]
+    return repeated_adjectives
+
+def find_most_used_adjectives(songtext):
+    adjectives = adjectives_sorted(songtext)
+    most_used_adjectives = [key for key, value  in adjectives.most_common() if value > 2]
+    return most_used_adjectives
+
+def find_main_adjectives(songtext):
+    sorted_repeated_adjectives = find_repeated_adjectives(songtext)
+    if len(sorted_repeated_adjectives) <= 5:
+        main_adjectives = sorted_repeated_adjectives
+    else:
+        main_adjectives = find_most_used_adjectives(songtext)
+    return main_adjectives
