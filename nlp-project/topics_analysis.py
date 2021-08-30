@@ -135,7 +135,7 @@ songs = {'Songtitle': songtitles,
         }
 # pd.set_option('display.max_columns', 10)
 
-df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Songs with similar topics'])
+df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Songs with similar topics', 'Songs that might have similar topics'])
 
 df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', sep= ';', index = False, header=True)
 # gfg_csv_data = df.to_csv(r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', index = False)
