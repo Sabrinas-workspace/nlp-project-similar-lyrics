@@ -167,8 +167,50 @@ def find_similar_song(songtitle, artist, root):
         
     return result_string
 
+def find_similar_songs(songtitle, artist, root):
+    for child in root:
+        if SongInformation.get_songtitle_child(child) == songtitle and SongInformation.get_artist_child(child) == artist:
+            songtext = child.find("songtext").text
+            main_topics = find_main_topics(songtext)
+            song = child
+    similar_songs = []
+    for child in root:
+        if song != child:
+            songtext_child = child.find("songtext").text
+            main_topics_child = find_main_topics(songtext_child)
+            for topic in main_topics_child:
+                if topic in main_topics:
+                    song_artist = "'" + SongInformation.get_songtitle_child(child) + "' by " + SongInformation.get_artist_child(child)
+                    similar_songs.append(song_artist)
+    return similar_songs
 
+def more_similar_songs(songtitle, artist, root):
+    similar_songs = find_similar_songs(songtitle, artist, root)
+    result = []
+   
+    if len(similar_songs) > 1:
+        duplicates = get_duplicates(similar_songs)
+        if len(duplicates) > 1:
+            result = duplicates
+            
+    return result
 
+def less_similar_songs(songtitle, artist, root):
+    similar_songs = find_similar_songs(songtitle, artist, root)
+    
+    result = []
+   
+    if len(similar_songs) > 1:
+        duplicates = get_duplicates(similar_songs)
+        if len(duplicates) > 1:
+            result = get_similar_songs_without_duplicates(duplicates, similar_songs)
+        else:
+            result = similar_songs
+    else:
+        result = similar_songs
+            
+    return result    
+    
 
 
 
