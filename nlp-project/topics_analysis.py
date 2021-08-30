@@ -34,8 +34,8 @@ for child in root:
     # print("")
     # print(SongtextTopics.find_topics(s))
     # print("")
-    # print(SongtextTopics.find_main_topics(s))
-    # print("")
+    print(SongtextTopics.find_main_topics(s))
+    print("")
 
     # print(SongtextTopics.get_adjectives(s))
     # print("")
@@ -46,28 +46,28 @@ for child in root:
     # print(SongtextTopics.find_main_adjectives(s))
     #print("")
 
-print("")
+# print("")
 
-print(SongtextTopics.find_song_about("people", root))
+# print(SongtextTopics.find_song_about("people", root))
 
-print("")
+# print("")
 
-print(SongtextTopics.find_song_about("love", root))
+# print(SongtextTopics.find_song_about("love", root))
 
-print("")
+# print("")
 
-print(SongtextTopics.find_song_about("hate", root))
+# print(SongtextTopics.find_song_about("hate", root))
 
-print("")
+# print("")
 
-print(SongtextTopics.find_song_about("pain", root))
+# print(SongtextTopics.find_song_about("pain", root))
 
-print("")
+# print("")
 
 # print(SongtextTopics.find_topics_of_artist("NF", root))
 
-print("")
+# print("")
 
-# print(SongtextTopics.find_similar_song("Remember This", "NF", root))
+# print(SongtextTopics.find_similar_song("My Stress", "NF", root))
 
 # print("")
