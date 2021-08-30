@@ -1,6 +1,3 @@
-from typing import Text
-import spacy
-
 import xml.etree.ElementTree as ET
 
 from textblob import TextBlob
@@ -20,10 +17,6 @@ def song_polarity_lines(songtext):
         count += 1
     result = polarity_analysis/count
     return result
-
-def song_subjectivity(songtext):
-    subjectivity_analysis = TextBlob(songtext).subjectivity
-    return subjectivity_analysis
 
 def pos_neg_neutral_polarity(songtext, root):
     polarity = song_polarity_lines(songtext)
@@ -71,6 +64,37 @@ def similar_mood_polarity(songtitle, artist, root):
 
     
 
+def similar_mood_polarity_title(songtitle, artist, root):
+    for child in root:
+        if SongInformation.get_songtitle_child(child) == songtitle and SongInformation.get_artist_child(child) == artist:
+            songtext = child.find("songtext").text
+            song_child = child
+    polarity = song_polarity_lines(songtext)
 
+    minimum = 10.0
+    result = ""
+
+    for child in root:
+        if child != song_child:
+            songtext_child = SongInformation.get_songtext_child(child)
+            polarity_child = song_polarity_lines(songtext_child)
+    
+            
+            if polarity > 0 and polarity_child > 0:
+                difference = polarity - polarity_child
+                if abs(difference) < minimum:
+                    minimum = abs(difference)
+                    minimum_song = child
+                    result = "'" + SongInformation.get_songtitle_child(minimum_song) + "' by " + SongInformation.get_artist_child(minimum_song)
+
+            if polarity < 0 and polarity_child < 0:
+                difference = abs(polarity - polarity_child)
+                if abs(difference) < minimum:
+                    minimum = abs(difference)
+                    minimum_song = child
+                    result = "'" + SongInformation.get_songtitle_child(minimum_song) + "' by " + SongInformation.get_artist_child(minimum_song) 
+            
+
+    return result
         
 
