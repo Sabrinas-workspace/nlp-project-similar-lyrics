@@ -39,8 +39,8 @@ songs_with_similar_mood = []
 
 
 for child in root:
-    songtitle = SongInformation.get_songtitle_child(child)
-    artist = SongInformation.get_artist_child(child)
+    songtitle = SongInformation.get_songtitle(child)
+    artist = SongInformation.get_artist(child)
     similar_mood = SongtextSentiment.similar_mood_polarity_title(songtitle, artist, root)
     songtitles.append(songtitle)
     artists.append(artist)
@@ -54,6 +54,6 @@ songs = {'Songtitle': songtitles,
 
 df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Song with a similar mood'])
 
-df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_sentiment.csv', sep= ';', index = False, header=True)
+#df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_sentiment.csv', sep= ';', index = False, header=True)
 
 print (df)
