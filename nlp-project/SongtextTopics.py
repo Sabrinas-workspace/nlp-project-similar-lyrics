@@ -44,36 +44,6 @@ def find_main_topics(songtext):
     return main_topics
 
 
-# adjectives
-
-def get_adjectives(songtext):
-    doc = nlp(songtext.lower())
-    all_adjectives = [token.lemma_ for token in doc if token.pos_ == "ADJ"]
-    return all_adjectives
-
-def adjectives_sorted(songtext):
-    adjectives = get_adjectives(songtext)
-    sorted_adjectives = Counter(adjectives)
-    return sorted_adjectives
-    
-def find_repeated_adjectives(songtext):
-    adjectives = adjectives_sorted(songtext)
-    repeated_adjectives = [key for key, value  in adjectives.most_common() if value > 1]
-    return repeated_adjectives
-
-def find_most_used_adjectives(songtext):
-    adjectives = adjectives_sorted(songtext)
-    most_used_adjectives = [key for key, value  in adjectives.most_common() if value > 2]
-    return most_used_adjectives
-
-def find_main_adjectives(songtext):
-    sorted_repeated_adjectives = find_repeated_adjectives(songtext)
-    if len(sorted_repeated_adjectives) <= 5:
-        main_adjectives = sorted_repeated_adjectives
-    else:
-        main_adjectives = find_most_used_adjectives(songtext)
-    return main_adjectives
-
 # little functions, only for XML
 
 def get_duplicates(song_list):
@@ -154,7 +124,7 @@ def find_similar_song(songtitle, artist, root):
         result_string = "If you like '" + songtitle + "' by" + artist + ", you might like " + str(similar_songs[0]) 
     elif len(similar_songs) > 1:
         duplicates = get_duplicates(similar_songs)
-        if len(duplicates) > 1:
+        if len(duplicates) > 0:
             duplicates_string = "If you like '" + songtitle + "' by " + artist + ", you might really like " + ", ".join(duplicates)
             other_similar_songs = get_similar_songs_without_duplicates(duplicates, similar_songs)
             other_similar_songs_string = "If you like '" + songtitle + "' by " + artist + ", you might like " + ", ".join(other_similar_songs)
@@ -163,7 +133,7 @@ def find_similar_song(songtitle, artist, root):
         else:
             result_string = "If you like '" + songtitle + "' by " + artist + ", you might like " + ", ".join(similar_songs)
     else:
-        result_string = "I'm sorry, there is no song similar song to '" + songtitle + "' by" + artist + " in this database"
+        result_string = "I'm sorry, there is no similar song to '" + songtitle + "' by" + artist + " in this database"
         
     return result_string
 
@@ -190,7 +160,7 @@ def more_similar_songs(songtitle, artist, root):
    
     if len(similar_songs) > 1:
         duplicates = get_duplicates(similar_songs)
-        if len(duplicates) > 1:
+        if len(duplicates) > 0:
             result = duplicates
             
     return result
