@@ -85,20 +85,20 @@ artists = []
 songs_with_similar_topics = []
 songs_that_might_have_similar_topics = []
 
-for child in root:
-    songtitle = SongInformation.get_songtitle_child(child)
-    artist = SongInformation.get_artist_child(child)
-    more_similar_songs = SongtextTopics.more_similar_songs(songtitle, artist, root)
-    less_similar_songs = SongtextTopics.less_similar_songs(songtitle, artist, root)
-    #n = "\n".join(more_similar_songs)
-    #more_similar_songs_string = '\\n'.join(more_similar_songs)
-    # more_similar_songs_string = more_similar_songs_string.split("\n")
-    # print(more_similar_songs_string)
-    songtitles.append(songtitle)
-    artists.append(artist)
-    #songs_with_similar_topics.append(f"{n}")
-    songs_with_similar_topics.append(more_similar_songs)
-    songs_that_might_have_similar_topics.append(less_similar_songs)
+# for child in root:
+#     songtitle = SongInformation.get_songtitle(child)
+#     artist = SongInformation.get_artist(child)
+#     more_similar_songs = SongtextTopics.more_similar_songs(songtitle, artist, root)
+#     less_similar_songs = SongtextTopics.less_similar_songs(songtitle, artist, root)
+#     #n = "\n".join(more_similar_songs)
+#     #more_similar_songs_string = '\\n'.join(more_similar_songs)
+#     # more_similar_songs_string = more_similar_songs_string.split("\n")
+#     # print(more_similar_songs_string)
+#     songtitles.append(songtitle)
+#     artists.append(artist)
+#     #songs_with_similar_topics.append(f"{n}")
+#     songs_with_similar_topics.append(more_similar_songs)
+#     songs_that_might_have_similar_topics.append(less_similar_songs)
 
 # songs_with_similar_topics = [item.split("\n") for item in songs_with_similar_topics]
 
@@ -128,19 +128,18 @@ for child in root:
 
 # print (df)
 
-songs = {'Songtitle': songtitles,
-         'Artist': artists,
-         'Songs with similar topics': songs_with_similar_topics,
-         'Songs that might have similar topics': songs_that_might_have_similar_topics
-        }
-# pd.set_option('display.max_columns', 10)
+# songs = {'Songtitle': songtitles,
+#          'Artist': artists,
+#          'Songs with similar topics': songs_with_similar_topics,
+#          'Songs that might have similar topics': songs_that_might_have_similar_topics
+#         }
+# # pd.set_option('display.max_columns', 10)
 
-df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Songs with similar topics', 'Songs that might have similar topics'])
+# df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Songs with similar topics', 'Songs that might have similar topics'])
 
-df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', sep= ';', index = False, header=True)
-# gfg_csv_data = df.to_csv(r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', index = False)
-# print('\nCSV String:\n', gfg_csv_data)
-print (df)
+# # df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', sep= ';', index = False, header=True)
+
+# print (df)
 
 # saving the DataFrame as a CSV file
 # gfg_csv_data = df.to_csv('GfG.csv', index = False)
