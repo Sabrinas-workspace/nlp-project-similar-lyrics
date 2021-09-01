@@ -24,13 +24,13 @@ for child in root:
     # print("")
     # print(SongtextTopics.find_main_topics(s))
     # print("")
-    print(SongtextTopics.find_similar_song(songtitle, artist, root))
-    print("")
+    # print(SongtextTopics.find_similar_song(songtitle, artist, root))
+    # print("")
 
 
 # print("")
 
-# print(SongtextTopics.find_song_about("people", root))
+print(SongtextTopics.find_song_about("people", root))
 
 # print("")
 
