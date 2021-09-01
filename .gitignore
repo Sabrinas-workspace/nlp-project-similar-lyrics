@@ -133,3 +133,5 @@ nlp-project/pyvenv.cfg
 nlp-project/Data_songtexts_genius.xml
 *.ps1
 *.exe
+code/Scripts/activate
+code/pyvenv.cfg
