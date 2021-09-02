@@ -1,7 +1,14 @@
-"""This module works only with XML corpora and contains three functions which
-all are used to easily get the songtext, title or artist of a song."""
+"""This module can access the main information of a song stored in a XML file.
 
-def get_songtext(et_element, songtitle = None, artist = None):
+    Functions:
+
+    get_songtext(ET.element) -> string 
+    or get_songtext(ET.element, string, string) -> string
+    get_songtitle(object) -> string
+    get_artist(file) -> object
+"""
+
+def get_songtext(et_element, songtitle=None, artist=None):
     if songtitle is not None and artist is not None:
         for child in et_element:
             artist_child = child.find("artist")
@@ -14,7 +21,7 @@ def get_songtext(et_element, songtitle = None, artist = None):
     return songtext
 
 
-def get_songtitle(et_element, songtext = None):
+def get_songtitle(et_element, songtext=None):
     if songtext is not None:
         for child in et_element:
             if get_songtext(child) == songtext:
@@ -24,7 +31,7 @@ def get_songtitle(et_element, songtext = None):
     return songtitle
 
 
-def get_artist(et_element, songtext = None):
+def get_artist(et_element, songtext=None):
     if songtext is not None:
         for child in et_element:
             if get_songtext(child) == songtext:
