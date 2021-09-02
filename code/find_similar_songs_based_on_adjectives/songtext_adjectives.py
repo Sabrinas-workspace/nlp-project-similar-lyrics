@@ -1,6 +1,36 @@
+"""This module finds similar songs based on common adjectives.
+
+   Note: This module is based on the module songtext_topics but is not included
+   in or combined with songtext_topics to avoid confusion and to allow the
+   possibility of working with only one method to find similar songtext since
+   they do not lead to equally good or bad results.
+
+   Functions:
+   The following functions can be used without a XML tree:
+   get_nouns(string) -> list
+   nouns_sorted(string) -> Counter
+   find_topics(string) -> list
+   find_fewer_topics(string) -> list
+   find_main_topics(string) -> list
+   get_duplicates(list) -> list
+   without_duplicates(list, list) -> list
+
+   The following functions can only be used with a XML tree:
+   find_similar_songs(xml.etree.ElementTree.Element,
+                       xml.etree.ElementTree.Element) -> list
+   more_similar_songs(xml.etree.ElementTree.Element,
+                       xml.etree.ElementTree.Element) -> list
+   less_similar_songs(xml.etree.ElementTree.Element,
+                       xml.etree.ElementTree.Element) -> list
+   query_get_song_recommendation(string, string, xml.etree.ElementTree.Element)
+               -> string
+   query_find_song_about(string, xml.etree.ElementTree.Element) -> string
+   query_find_topics_of_artist(string, xml.etree.ElementTree.Element) -> string
+"""
+
 import spacy
 from collections import Counter
-import SongInformation
+import song_information
 
 nlp = spacy.load(("en_core_web_sm"))
 
@@ -49,18 +79,18 @@ def get_similar_songs_without_duplicates(duplicates, similar_songs):
 
 def find_similar_song(songtitle, artist, root):
     for child in root:
-        if SongInformation.get_songtitle(child) == songtitle and SongInformation.get_artist(child) == artist:
-            songtext = SongInformation.get_songtext(child)
+        if song_information.get_songtitle(child) == songtitle and song_information.get_artist(child) == artist:
+            songtext = song_information.get_songtext(child)
             main_topics = find_main_adjectives(songtext)
             song = child
     similar_songs = []
     for child in root:
         if song != child:
-            songtext_child = SongInformation.get_songtext(child)
+            songtext_child = song_information.get_songtext(child)
             main_topics_child = find_main_adjectives(songtext_child)
             for topic in main_topics_child:
                 if topic in main_topics:
-                    song_artist = "'" + SongInformation.get_songtitle(child) + "' by " + SongInformation.get_artist(child)
+                    song_artist = "'" + song_information.get_songtitle(child) + "' by " + song_information.get_artist(child)
                     similar_songs.append(song_artist)
         
     result_string = ""
