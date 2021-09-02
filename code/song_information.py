@@ -1,17 +1,19 @@
 """This module can access the main information of a song stored in a XML file.
 
-    Functions:
+   Functions:
 
-    get_songtext(xml.etree.ElementTree.Element) -> string
-    or get_songtext(xml.etree.ElementTree.Element, string, string) -> string
-    get_songtitle(xml.etree.ElementTree.Elementt) -> string
-    or get_songtitle(xml.etree.ElementTree.Elementt, string) -> string
-    get_artist(xml.etree.ElementTree.Element) -> string
-    or get_artist(xml.etree.ElementTree.Element, string) -> string
+   get_songtext(xml.etree.ElementTree.Element) -> string
+   or get_songtext(xml.etree.ElementTree.Element, string, string) -> string
+
+   get_songtitle(xml.etree.ElementTree.Elementt) -> string
+   or get_songtitle(xml.etree.ElementTree.Elementt, string) -> string
+
+   get_artist(xml.etree.ElementTree.Element) -> string
+   or get_artist(xml.etree.ElementTree.Element, string) -> string
 """
 
 def get_songtext(et_element, songtitle=None, artist=None):
-    """Returns the songtext of a song.
+    """Finds the songtext of a song.
 
     Args:
         et_element: A xml.etree.ElementTree.Element. If this is the only passed
@@ -41,7 +43,7 @@ def get_songtext(et_element, songtitle=None, artist=None):
     return songtext
 
 def get_songtitle(et_element, songtext=None):
-    """Returns the songtitle of a song.
+    """Finds the songtitle of a song.
 
     Args:
         et_element: A xml.etree.ElementTree.Element. If this is the only passed
@@ -65,7 +67,7 @@ def get_songtitle(et_element, songtext=None):
     return songtitle
 
 def get_artist(et_element, songtext=None):
-    """Returns the artist of a song.
+    """Finds the artist of a song.
 
     Args:
         et_element: A xml.etree.ElementTree.Element. If this is the only passed
