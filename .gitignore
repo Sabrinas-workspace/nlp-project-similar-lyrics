@@ -135,3 +135,5 @@ nlp-project/Data_songtexts_genius.xml
 *.exe
 code/Scripts/activate
 code/pyvenv.cfg
+.pylintrc
+.vscode/settings.json
