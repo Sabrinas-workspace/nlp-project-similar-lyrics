@@ -3,7 +3,7 @@
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from collections import Counter
-import SongInformation
+import song_information
 
 to_add = ["anything", "believin", "bunch", "case", "day", "head", "hundredfold", "kind", "lot", "million", "people", "person", "pow", "t", "thing", "thinkin", "somethin'", "stressin", "tryna", "way", "wearin"]
 for word in to_add:
@@ -64,11 +64,11 @@ def find_song_about(topic, root):
     songs = []
     result_string = ""
     for child in root:
-        songtext = SongInformation.get_songtext(child)
+        songtext = song_information.get_songtext(child)
         main_topics = find_main_topics(songtext)
 
         if topic in main_topics:
-            song_artist = "'" + SongInformation.get_songtitle(child) + "' by " + SongInformation.get_artist(child)
+            song_artist = "'" + song_information.get_songtitle(child) + "' by " + song_information.get_artist(child)
             songs.append(song_artist)
     if len(songs) == 1:
         result_string = "A song about " + topic + " is " + str(songs[0]) 
@@ -83,9 +83,9 @@ def find_topics_of_artist(artist, root):
     topics = []
     repeating_topics = []
     for child in root:
-        artist_child = SongInformation.get_artist(child)
+        artist_child = song_information.get_artist(child)
         if artist_child == artist:
-            songtext = SongInformation.get_songtext(child)
+            songtext = song_information.get_songtext(child)
             song_topics = find_topics(songtext)
             for topic in song_topics:
                 if topic in topics and topic not in repeating_topics:
@@ -104,18 +104,18 @@ def find_topics_of_artist(artist, root):
 
 def find_similar_song(songtitle, artist, root):
     for child in root:
-        if SongInformation.get_songtitle(child) == songtitle and SongInformation.get_artist(child) == artist:
-            songtext = SongInformation.get_songtext(child)
+        if song_information.get_songtitle(child) == songtitle and song_information.get_artist(child) == artist:
+            songtext = song_information.get_songtext(child)
             main_topics = find_main_topics(songtext)
             song = child
     similar_songs = []
     for child in root:
         if song != child:
-            songtext_child = SongInformation.get_songtext(child)
+            songtext_child = song_information.get_songtext(child)
             main_topics_child = find_main_topics(songtext_child)
             for topic in main_topics_child:
                 if topic in main_topics:
-                    song_artist = "'" + SongInformation.get_songtitle(child) + "' by " + SongInformation.get_artist(child)
+                    song_artist = "'" + song_information.get_songtitle(child) + "' by " + song_information.get_artist(child)
                     similar_songs.append(song_artist)
         
     result_string = ""
@@ -138,8 +138,8 @@ def find_similar_song(songtitle, artist, root):
 
 def find_similar_songs(songtitle, artist, root):
     for child in root:
-        if SongInformation.get_songtitle(child) == songtitle and SongInformation.get_artist(child) == artist:
-            songtext = SongInformation.get_songtext(child)
+        if song_information.get_songtitle(child) == songtitle and song_information.get_artist(child) == artist:
+            songtext = song_information.get_songtext(child)
             main_topics = find_main_topics(songtext)
             song = child
     similar_songs = []
@@ -149,7 +149,7 @@ def find_similar_songs(songtitle, artist, root):
             main_topics_child = find_main_topics(songtext_child)
             for topic in main_topics_child:
                 if topic in main_topics:
-                    song_artist = "'" + SongInformation.get_songtitle(child) + "' by " + SongInformation.get_artist(child)
+                    song_artist = "'" + song_information.get_songtitle(child) + "' by " + song_information.get_artist(child)
                     similar_songs.append(song_artist)
     return similar_songs
 
