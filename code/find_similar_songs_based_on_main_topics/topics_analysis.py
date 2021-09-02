@@ -1,20 +1,20 @@
 import xml.etree.ElementTree as ET
 
-import pandas as pd
+# import pandas as pd
 
-import SongtextTopics 
+# import songtext_topics 
 
-import SongInformation
+import song_information
 
 
 tree = ET.parse('D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_songtexts_genius_complete.xml')
 
 root = tree.getroot()
-
+print(type(root))
 for child in root:
-    songtitle = SongInformation.get_songtitle(child)
-    artist = SongInformation.get_artist(child)
-    songtext = SongInformation.get_songtext(child)
+    songtitle = song_information.get_songtitle(child)
+    artist = song_information.get_artist(child)
+    songtext = song_information.get_songtext(child)
     # print("")
     # print(SongtextTopics.get_nouns(s))
     # print("")
@@ -30,7 +30,7 @@ for child in root:
 
 # print("")
 
-print(SongtextTopics.find_song_about("people", root))
+#print(SongtextTopics.find_song_about("people", root))
 
 # print("")
 
@@ -63,7 +63,7 @@ print(SongtextTopics.find_song_about("people", root))
 # songs_that_might_have_similar_topics = []
 
 # for child in root:
-#     songtitle = SongInformation.get_songtitle(child)
+#     songtitle = song_information.get_songtitle(child)
 #     artist = SongInformation.get_artist(child)
 #     more_similar_songs = SongtextTopics.more_similar_songs(songtitle, artist, root)
 #     less_similar_songs = SongtextTopics.less_similar_songs(songtitle, artist, root)
