@@ -36,7 +36,7 @@ or only use one or two. First I will explain how you work with all methods, for 
 use of the single methods see below.
 
 All methods
-If you open the folder code, you will see four modules and four folders.
+If you open the folder code: .code/, you will see four modules and four folders.
 The module song_information.py is needed for the other three modules, so you might
 want to open that first. The modules songtext_adjectives.py, songtext_sentiment.py
 and songtext_topics.py contain functions needed for the different approaches.
