@@ -1,6 +1,6 @@
 # nlp-project-similar-songtexts
 
-About the project
+**About the project**
 
 The goal of my project is to find similar songs to a song with different NLP
 methods. For this I only consider the songtext of the songs.
@@ -12,7 +12,7 @@ I am working alone on this project and it is my project work for my university c
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/.
 
 
-The data
+**The data**
 
 For my project I created a corpus of songtexts which I cannot include do to copyright 
 reasons. However, now will follow instructions on how you can create a corpus for
@@ -25,7 +25,7 @@ text. I thought about using a web scrapper but since I wanted that exact structu
 can see in the file, it would have been more time_consuming.
 
 
-How you can try out the code yourself
+**How you can try out the code yourself**
 
 You can find all the packages I used for this project in the requirements.txt file.
 There is also the linter that I used included, in case you want change and add to the code
@@ -35,7 +35,7 @@ I tried out three different methods to find similar songs. You can combine all o
 or only use one or two. First I will explain how you work with all methods, for the
 use of the single methods see below.
 
-All methods
+**All methods**
 If you open the folder code, you will see four modules and four folders.
 The module song_information.py is needed for the other three modules, so you might
 want to open that first. The modules songtext_adjectives.py, songtext_sentiment.py
@@ -49,7 +49,7 @@ with which you can for example get song recommendations for single songs or find
 about a certain topic, you can also take a look at the next section where I explain how
 to use the methods independently.
 
-Single methods
+**Single methods**
 
 find_similar_songs_based_on_main_topics 
 
