@@ -18,7 +18,7 @@
    less_similar_songs(xml.etree.ElementTree.Element,
                        xml.etree.ElementTree.Element) -> list
    query_get_song_recommendation(string, string, xml.etree.ElementTree.Element)
-               -> string
+        -> string
    query_find_song_about(string, xml.etree.ElementTree.Element) -> string
    query_find_topics_of_artist(string, xml.etree.ElementTree.Element) -> string
 """
@@ -243,7 +243,7 @@ def query_get_song_recommendation(songtitle, artist, root):
                 and song_information.get_artist(child) == artist):
             song = child
         else:
-            answer = ("'" + songtitle + "' by " + artist
+            answer = ("Sorry, '" + songtitle + "' by " + artist
                         + "could not be found in this corpora")
     similar_songs = find_similar_songs(song, root)
     if len(similar_songs) == 1:
