@@ -1,61 +1,53 @@
+"""This module tests the module songtext_sentiments and exports the results.
+"""
+
 import xml.etree.ElementTree as ET
-
 import pandas as pd
+import songtext_sentiment
+import song_information
 
-import SongtextSentiment
-
-import SongInformation
-
-tree = ET.parse('D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_songtexts_genius_complete.xml')
-
+# Insert the path to your XML corpus and comment in the next line
+# tree = ET.parse('PATH')
 root = tree.getroot()
 
+# Some example queries
+print(songtext_sentiment.query_sentiment("Animal", "Troye Sivan", root))
+print("")
+print(songtext_sentiment.query_sentiment("Paralyzed", "NF", root))
+print("")
+
+print(songtext_sentiment.query_get_song_recommendation("Lover", "Taylor Swift", root))
+print("")
+print(songtext_sentiment.query_get_song_recommendation("Returns", "NF", root))
+print("")
+
+
+# Creates dataframe for results
+songtitles = []
+artists = []
+polarities = []
+similar_sentiment = []
 for child in root:
-    songtitle = SongInformation.get_songtitle(child)
-    artist = SongInformation.get_artist(child)
-    songtext = SongInformation.get_songtext(child)
-#     # print(SongtextSentiment.song_polarity(songtext))
-#     print(SongtextSentiment.song_polarity_lines(songtext))
-#     print(SongtextSentiment.pos_neg_neutral_polarity(songtext, root))
-    print(SongtextSentiment.similar_mood_polarity(songtitle, artist, root))
-    print("")
-#     print("")
+    songtitle = song_information.get_songtitle(child)
+    artist = song_information.get_artist(child)
+    songtext = song_information.get_songtext(child)
+    polarity = songtext_sentiment.song_polarity(songtext)
+    similar_song = songtext_sentiment.similar_sentiment(child, root)
+    songtitles.append(songtitle)
+    artists.append(artist)
+    polarities.append(polarity)
+    similar_sentiment.append(similar_song)
 
-# print("")
-# print(SongtextSentiment.similar_mood_polarity("Clouds", "NF", root))
-# print("")
-# print(SongtextSentiment.similar_mood_polarity("Paralyzed", "NF", root))
-# print("")
-# print(SongtextSentiment.similar_mood_polarity("Remember This", "NF", root))
-# print("")
-# print(SongtextSentiment.similar_mood_polarity("Returns", "NF", root))
-# print("")
-# print(SongtextSentiment.similar_mood_polarity("If you want love", "NF", root))
-# print("")
+songs = {'Songtitle': songtitles,
+         'Artist': artists,
+         'Song polarity': polarities,
+         'Song with a similar sentiment': similar_sentiment
+        }
 
-# dataframe
+df = pd.DataFrame(songs, columns = ['Songtitle', 'Artist', 'Song polarity',
+                                    'Song with a similar sentiment'])
 
-# songtitles = []
-# artists = []
-# songs_with_similar_mood = []
-
-
-# for child in root:
-#     songtitle = SongInformation.get_songtitle(child)
-#     artist = SongInformation.get_artist(child)
-#     similar_mood = SongtextSentiment.similar_mood_polarity_title(songtitle, artist, root)
-#     songtitles.append(songtitle)
-#     artists.append(artist)
-#     songs_with_similar_mood.append(similar_mood)
-
-
-# songs = {'Songtitle': songtitles,
-#          'Artist': artists,
-#          'Song with a similar mood': songs_with_similar_mood
-#         }
-
-# df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Song with a similar mood'])
-
-# #df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_sentiment.csv', sep= ';', index = False, header=True)
-
-# print (df)
+# Insert the path to the folder in which you want to save the results file
+# and comment in the next line
+# df.to_csv (r'PATH/sentiment_results.csv', sep= ';', index = False, header=True)
+print(df)
