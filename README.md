@@ -28,7 +28,7 @@ can see in the file, it would have been more time-consuming.
 **How you can try out the code yourself**
 
 You can find all the packages I used for this project in the requirements.txt file.
-There is also the linter that I used included, in case you want change and add to the code
+There is also the linter I used included, in case you want to change and add to the code
 but keep the code style. I decided to follow Google's style and therefore used pylint.
 
 I tried out three different methods to find similar songs. You can combine all of them
