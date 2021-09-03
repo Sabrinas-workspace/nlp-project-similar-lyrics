@@ -1,12 +1,33 @@
-from textblob import TextBlob
+"""This module analyses a song's sentiment and based on that finds similar songs.
 
-import SongInformation
+   Functions:
+   The following function can be used without a XML tree:
+   song_polarity(string) -> float
+
+   The following functions can only be used with a XML tree:
+   query_sentiment(string, string, xml.etree.ElementTree.Element) -> string
+   pos_minimum_difference(xml.etree.ElementTree.Element, float,
+                xml.etree.ElementTree.Element) -> xml.etree.ElementTree.Element
+   neg_minimum_difference(xml.etree.ElementTree.Element, float,
+                xml.etree.ElementTree.Element) -> xml.etree.ElementTree.Element
+   similar_sentiment_polarity(xml.etree.ElementTree.Element,
+                                xml.etree.ElementTree.Element) -> string
+   query_get_song_recommendation(string, string, xml.etree.ElementTree.Element)
+        -> string
+"""
+
+from textblob import TextBlob
+import song_information
 
 def song_polarity(songtext):
-    polarity_analysis = TextBlob(songtext).polarity
-    return polarity_analysis
+    """Calculates the polarity of a songtext.
 
-def song_polarity_lines(songtext):
+    Args:
+        songtext: A string containing the songtext of a song.
+
+    Returns:
+        A float representing the polarity value of the songtext.
+    """
     lines = songtext.split('\n')
     polarity_analysis = 0
     count = 0
@@ -16,83 +37,138 @@ def song_polarity_lines(songtext):
     result = polarity_analysis/count
     return result
 
-def pos_neg_neutral_polarity(songtext, root):
-    polarity = song_polarity_lines(songtext)
+def query_sentiment(songtitle, artist, root):
+    """Evaluates the requested songs sentiment.
+
+    Args:
+        songtitle: A string containing a song name.
+        artist: A string containing the artist of the song.
+        root: The root of the ElementTree.
+
+    Returns:
+        A string message including whether the requested song has a negative,
+        positive or neutral sentiment.
+    """
+    for child in root:
+        if (song_information.get_songtitle(child) == songtitle
+                and song_information.get_artist(child) == artist):
+            song = child
+    songtext = song_information.get_songtext(song)
+    polarity = song_polarity(songtext)
+    songtitle = song_information.get_songtitle(root, songtext)
+    artist = song_information.get_artist(root, songtext)
     if polarity < 0:
-        result = "The polarity of '" + SongInformation.get_songtitle(root, songtext) + "' by " + SongInformation.get_artist(root, songtext) + " is negative"
+        result = ("The sentiment of '" + songtitle + "' by " + artist +
+                    " is negative")
     elif polarity > 0:
-        result = "The polarity of '" + SongInformation.get_songtitle(root, songtext) + "' by " + SongInformation.get_artist(root, songtext) + " is positive"
+        result = ("The sentiment of '" + songtitle + "' by " + artist +
+                    " is positive")
     else:
-        result = "The polarity of '" + SongInformation.get_songtitle(root, songtext) + "' by " + SongInformation.get_artist(root, songtext) + " is neutral"
+        result = ("The sentiment of '" + songtitle + "' by " + artist +
+                    " is neutral")
     return result
 
-def similar_mood_polarity(songtitle, artist, root):
-    for child in root:
-        if SongInformation.get_songtitle(child) == songtitle and SongInformation.get_artist(child) == artist:
-            songtext = child.find("songtext").text
-            song_child = child
-    polarity = song_polarity_lines(songtext)
+def pos_minimum_difference(song, polarity, root):
+    """Calculates which song the most similar polarity to the passed polarity
+    has.
 
-    minimum = 10.0
-    result = ""
+    Args:
+        song: A child of an ElementTree.
+        polarity: A positive float which represents the polarity of the song to
+        which the song with the most similar polarity is wanted.
+        root: The root of the ElementTree which has the child song.
 
+    Returns:
+        The child of the XML tree in which the song with the most similar
+        polarity to the passed polarity is stored.
+    """
+    minimum = 10.0 # a number which is higher than the polarity values
     for child in root:
-        if child != song_child:
-            songtext_child = SongInformation.get_songtext(child)
-            polarity_child = song_polarity_lines(songtext_child)
-    
-            
-            if polarity > 0 and polarity_child > 0:
+        if child != song:
+            songtext_child = song_information.get_songtext(child)
+            polarity_child = song_polarity(songtext_child)
+            if polarity_child > 0:
                 difference = polarity - polarity_child
                 if abs(difference) < minimum:
                     minimum = abs(difference)
                     minimum_song = child
-                    result = "'" + SongInformation.get_songtitle(minimum_song) + "' by " + SongInformation.get_artist(minimum_song) + " has a similiar mood to '" + songtitle + "' by " + artist
+    return minimum_song
 
-            if polarity < 0 and polarity_child < 0:
+def neg_minimum_difference(song, polarity, root):
+    """Calculates which song the most similar polarity to the passed polarity
+    has.
+
+    Args:
+        song: A child of an ElementTree.
+        polarity: A negative float which represents the polarity of the song to
+        which the song with the most similar polarity is wanted.
+        root: The root of the ElementTree which has the child song.
+
+    Returns:
+        The child of the XML tree in which the song with the most similar
+        polarity to the passed polarity is stored.
+    """
+    minimum = 10.0 # a number which is higher than the polarity values
+    for child in root:
+        if child != song:
+            songtext_child = song_information.get_songtext(child)
+            polarity_child = song_polarity(songtext_child)
+            if polarity_child < 0:
                 difference = abs(polarity - polarity_child)
                 if abs(difference) < minimum:
                     minimum = abs(difference)
                     minimum_song = child
-                    result = "'" + SongInformation.get_songtitle(minimum_song) + "' by " + SongInformation.get_artist(minimum_song) + " has a similiar mood to '" + songtitle + "' by " + artist
-                    
-            
+    return minimum_song
 
+def similar_sentiment_polarity(song, root):
+    """Finds the song with the most similar polarity to the requested song from
+    all songs stored in an XML corpora.
+
+    Args:
+        song: A child of an ElementTree.
+        root: The root of the ElementTree which has the child song.
+
+    Returns:
+        A string containing the song with the most similar polarity to the
+        passed song.
+    """
+    songtext = song_information.get_songtext(song)
+    polarity = song_polarity(songtext)
+    if polarity > 0:
+        similar_song = pos_minimum_difference(song, polarity, root)
+        result = ("'" + song_information.get_songtitle(similar_song) + "' by "
+                        + song_information.get_artist(similar_song))
+    elif polarity < 0:
+        similar_song = neg_minimum_difference(song, polarity, root)
+        result = ("'" + song_information.get_songtitle(similar_song) + "' by "
+                        + song_information.get_artist(similar_song))
     return result
 
-    
+def query_get_song_recommendation(songtitle, artist, root):
+    """Recommends the song with the most similar sentiment to the requested song.
+    Args:
+        songtitle: A string containing a song name.
+        artist: A string containing the artist of the song.
+        root: The root of the ElementTree.
 
-def similar_mood_polarity_title(songtitle, artist, root):
+    Returns:
+        A string message including which song has a similar mood to the
+        requested song.
+    """
     for child in root:
-        if SongInformation.get_songtitle(child) == songtitle and SongInformation.get_artist(child) == artist:
-            songtext = child.find("songtext").text
-            song_child = child
-    polarity = song_polarity_lines(songtext)
-
-    minimum = 10.0
-    result = ""
-
-    for child in root:
-        if child != song_child:
-            songtext_child = SongInformation.get_songtext(child)
-            polarity_child = song_polarity_lines(songtext_child)
-    
-            
-            if polarity > 0 and polarity_child > 0:
-                difference = polarity - polarity_child
-                if abs(difference) < minimum:
-                    minimum = abs(difference)
-                    minimum_song = child
-                    result = "'" + SongInformation.get_songtitle(minimum_song) + "' by " + SongInformation.get_artist(minimum_song)
-
-            if polarity < 0 and polarity_child < 0:
-                difference = abs(polarity - polarity_child)
-                if abs(difference) < minimum:
-                    minimum = abs(difference)
-                    minimum_song = child
-                    result = "'" + SongInformation.get_songtitle(minimum_song) + "' by " + SongInformation.get_artist(minimum_song) 
-            
-
+        if (song_information.get_songtitle(child) == songtitle
+                and song_information.get_artist(child) == artist):
+            song = child
+    songtext = song_information.get_songtext(song)
+    polarity = song_polarity(songtext)
+    if polarity > 0:
+        similar_song = pos_minimum_difference(song, polarity, root)
+        result = ("'" + song_information.get_songtitle(similar_song) + "' by "
+                    + song_information.get_artist(similar_song)
+                    + " has a similiar mood to '" + songtitle + "' by " + artist)
+    elif polarity < 0:
+        similar_song = neg_minimum_difference(song, polarity, root)
+        result = ("'" + song_information.get_songtitle(similar_song) + "' by "
+                    + song_information.get_artist(similar_song)
+                    + " has a similiar mood to '" + songtitle + "' by " + artist)
     return result
-        
-
