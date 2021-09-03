@@ -7,6 +7,7 @@ methods. For this I only consider the songtext of the songs.
 I am working alone on this project and it is my project work for my university class
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/.
 
+<<<<<<< HEAD
 The data
 
 For my project I created a corpus of songtexts which I cannot include do to copyright 
@@ -41,3 +42,7 @@ How you can try out the code yourself
 You can find all the packages I used for this project in the requirements.txt file.
 There is also the linter that I used included, in case you want change and add to the code
 but keep the code style. I decided to follow Google's style and therefore used pylint.
+=======
+I worked alone on this project and it is my project work for my university class
+"Advanced Natural Language Processing with Python" https://esther.seyffarth.one/classes/2021-advanced-nlp/.
+>>>>>>> 772e1f007168943adf468b9b5b6b125b65cee416
