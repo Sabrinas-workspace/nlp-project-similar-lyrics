@@ -1,0 +1,16 @@
+<data>
+    <song name="This is a song">
+        <artist name= "This is an artist">
+        </artist>
+        <songtext>
+            This is a songtext
+        </songtext>
+    </song>
+    <song name="This is another song">
+        <artist name= "This is another artist">
+        </artist>
+        <songtext>
+           This is another songtext
+        </songtext>
+    </song>
+</data>
