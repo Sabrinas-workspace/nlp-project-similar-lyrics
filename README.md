@@ -22,7 +22,7 @@ You can see how my corpus is structured in the corpus_example_structure.xml file
 Because I wanted to work with XML, it was the easiest way for me to just copy and paste
 the songtext and delete "Chorus", "Verse", "Bridge" etc., so that it is just one connected
 text. I thought about using a web scrapper but since I wanted that exact structure you 
-can see in the file, it would have been more time_consuming.
+can see in the file, it would have been more time-consuming.
 
 
 **How you can try out the code yourself**
