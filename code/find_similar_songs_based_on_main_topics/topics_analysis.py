@@ -1,100 +1,62 @@
+"""This module tests the module songtext_topics and exports the results.
+"""
+
 import xml.etree.ElementTree as ET
-
-# import pandas as pd
-
-# import songtext_topics 
-
+import pandas as pd
+import songtext_topics
 import song_information
 
-
-tree = ET.parse('D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_songtexts_genius_complete.xml')
-
+# Insert the path to your XML corpus and comment in the next line
+# tree = ET.parse('PATH')
 root = tree.getroot()
-print(type(root))
+
+# Some example queries
+print(songtext_topics.query_get_song_recommendation("Billie Jean", "Michael Jackson", root))
+print("")
+print(songtext_topics.query_get_song_recommendation("My Stress", "NF", root))
+print("")
+
+print(songtext_topics.query_find_song_about("love", root))
+print("")
+print(songtext_topics.query_find_song_about("hate", root))
+print("")
+print(songtext_topics.query_find_song_about("pain", root))
+print("")
+
+print(songtext_topics.query_find_topics_of_artist("NF", root))
+print("")
+print(songtext_topics.query_find_topics_of_artist("Troye Sivan", root))
+print("")
+print(songtext_topics.query_find_topics_of_artist("Tina Turner", root))
+print("")
+
+
+# Creates dataframe for results
+songtitles = []
+artists = []
+similar_topics = []
+might_have_similar_topics = []
 for child in root:
     songtitle = song_information.get_songtitle(child)
     artist = song_information.get_artist(child)
-    songtext = song_information.get_songtext(child)
-    # print("")
-    # print(SongtextTopics.get_nouns(s))
-    # print("")
-    # print(SongtextTopics.nouns_sorted(s))
-    # print("")
-    # print(SongtextTopics.find_topics(s))
-    # print("")
-    # print(SongtextTopics.find_main_topics(s))
-    # print("")
-    # print(SongtextTopics.find_similar_song(songtitle, artist, root))
-    # print("")
+    more_similar_songs = songtext_topics.more_similar_songs(child, root)
+    less_similar_songs = songtext_topics.less_similar_songs(child, root)
+    songtitles.append(songtitle)
+    artists.append(artist)
+    similar_topics.append(more_similar_songs)
+    might_have_similar_topics.append(less_similar_songs)
 
+songs = {'Songtitle': songtitles,
+         'Artist': artists,
+         'Songs with similar topics': similar_topics,
+         'Songs that might have similar topics': might_have_similar_topics
+        }
 
-# print("")
+df = pd.DataFrame(songs, columns = ['Songtitle', 'Artist',
+                    'Songs with similar topics',
+                    'Songs that might have similar topics'])
 
-#print(SongtextTopics.find_song_about("people", root))
-
-# print("")
-
-# print(SongtextTopics.find_song_about("love", root))
-
-# print("")
-
-# print(SongtextTopics.find_song_about("hate", root))
-
-# print("")
-
-# print(SongtextTopics.find_song_about("pain", root))
-
-# print("")
-
-# print(SongtextTopics.find_topics_of_artist("NF", root))
-
-# print("")
-
-# print(SongtextTopics.find_similar_song("My Stress", "NF", root))
-
-# print("")
-
-
-# create dataframe for results
-
-# songtitles = []
-# artists = []
-# songs_with_similar_topics = []
-# songs_that_might_have_similar_topics = []
-
-# for child in root:
-#     songtitle = song_information.get_songtitle(child)
-#     artist = SongInformation.get_artist(child)
-#     more_similar_songs = SongtextTopics.more_similar_songs(songtitle, artist, root)
-#     less_similar_songs = SongtextTopics.less_similar_songs(songtitle, artist, root)
-#     songtitles.append(songtitle)
-#     artists.append(artist)
-#     songs_with_similar_topics.append(more_similar_songs)
-#     songs_that_might_have_similar_topics.append(less_similar_songs)
-
-
-
-
-# print(songtitles)
-# print("")
-# print(artists)
-# print("")
-# print(songs_with_similar_topics)
-# print("")
-# print(songs_that_might_have_similar_topics)
-# print("")
-
-
-# songs = {'Songtitle': songtitles,
-#          'Artist': artists,
-#          'Songs with similar topics': songs_with_similar_topics,
-#          'Songs that might have similar topics': songs_that_might_have_similar_topics
-#         }
-
-
-# df = pd.DataFrame(songs, columns = ['Songtitle','Artist', 'Songs with similar topics', 'Songs that might have similar topics'])
-
-# # df.to_csv (r'D:/Data/Nextcloud/Documents/Uni/Advanced NLP with Python/AP Projekt/Data_topics.csv', sep= ';', index = False, header=True)
-
-# print (df)
-
+# Insert the path to the folder in which you want to save the results file
+# and comment in the next line
+# df.to_csv (r'PATH/topics_results.csv', sep= ';', index = False, header=True)
+print(df)
