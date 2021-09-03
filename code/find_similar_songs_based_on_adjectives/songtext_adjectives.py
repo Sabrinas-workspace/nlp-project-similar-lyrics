@@ -7,106 +7,129 @@
 
    Functions:
    The following functions can be used without a XML tree:
-   get_nouns(string) -> list
-   nouns_sorted(string) -> Counter
-   find_topics(string) -> list
-   find_fewer_topics(string) -> list
-   find_main_topics(string) -> list
+   get_adjectives(string) -> list
+   adjectives_sorted(string) -> Counter
+   find_repeated_adjectives(string) -> list
    get_duplicates(list) -> list
-   without_duplicates(list, list) -> list
 
    The following functions can only be used with a XML tree:
    find_similar_songs(xml.etree.ElementTree.Element,
-                       xml.etree.ElementTree.Element) -> list
-   more_similar_songs(xml.etree.ElementTree.Element,
-                       xml.etree.ElementTree.Element) -> list
-   less_similar_songs(xml.etree.ElementTree.Element,
-                       xml.etree.ElementTree.Element) -> list
+                        xml.etree.ElementTree.Element) -> list
    query_get_song_recommendation(string, string, xml.etree.ElementTree.Element)
-               -> string
-   query_find_song_about(string, xml.etree.ElementTree.Element) -> string
-   query_find_topics_of_artist(string, xml.etree.ElementTree.Element) -> string
+        -> string
 """
 
-import spacy
 from collections import Counter
+import spacy
 import song_information
 
 nlp = spacy.load(("en_core_web_sm"))
 
-# adjectives
-
 def get_adjectives(songtext):
+    """Finds all adjectives from the songtext.
+
+    Args:
+        songtext: A string containing the songtext of a song.
+
+    Returns:
+        A list of all adjectives found in the songtext.
+    """
     doc = nlp(songtext.lower())
     all_adjectives = [token.lemma_ for token in doc if token.pos_ == "ADJ"]
     return all_adjectives
 
 def adjectives_sorted(songtext):
+    """Creates a Counter of all adjectives from the songtext.
+
+    Args:
+        songtext: A string containing the songtext of a song.
+
+    Returns:
+        A Counter of all adjectives found in the songtext.
+    """
     adjectives = get_adjectives(songtext)
     sorted_adjectives = Counter(adjectives)
     return sorted_adjectives
-    
+
 def find_repeated_adjectives(songtext):
+    """Creates a list of all repeating adjectives from the songtext.
+
+    Args:
+        songtext: A string containing the songtext of a song.
+
+    Returns:
+        A list of all adjectives found more than once in the songtext.
+    """
     adjectives = adjectives_sorted(songtext)
-    repeated_adjectives = [key for key, value  in adjectives.most_common() if value > 1]
+    repeated_adjectives = [key for key, value  in adjectives.most_common()
+                            if value > 1]
     return repeated_adjectives
 
-def find_most_used_adjectives(songtext):
-    adjectives = adjectives_sorted(songtext)
-    most_used_adjectives = [key for key, value  in adjectives.most_common() if value > 2]
-    return most_used_adjectives
-
-def find_main_adjectives(songtext):
-    sorted_repeated_adjectives = find_repeated_adjectives(songtext)
-    if len(sorted_repeated_adjectives) <= 5:
-        main_adjectives = sorted_repeated_adjectives
-    else:
-        main_adjectives = find_most_used_adjectives(songtext)
-    return main_adjectives
-
-# little functions, only for XML
-
 def get_duplicates(song_list):
-    duplicates = [key for key in Counter(song_list).keys() if Counter(song_list)[key] > 1]
+    """Finds all duplicates in a list.
+
+    Args:
+        song_list: A list of "song by artist" strings with which this
+        function is called from find_similar_songs.
+
+    Returns:
+        A list of all strings found more than once in the input list.
+    """
+    duplicates = [key for key in Counter(song_list).keys()
+                    if Counter(song_list)[key] > 1]
     return duplicates
 
-def get_similar_songs_without_duplicates(duplicates, similar_songs):
-    result = []
-    for song in similar_songs:
-        if song not in duplicates:
-            result.append(song)
-    return result
+def find_similar_songs(song, root):
+    """Finds all similar songs to a song which are stored as children of an XML
+    corpora.
 
-def find_similar_song(songtitle, artist, root):
-    for child in root:
-        if song_information.get_songtitle(child) == songtitle and song_information.get_artist(child) == artist:
-            songtext = song_information.get_songtext(child)
-            main_topics = find_main_adjectives(songtext)
-            song = child
+    Args:
+        song: A child of an ElementTree.
+        root: The root of the ElementTree which has the child song.
+
+    Returns:
+        A list of all songs that have at least two common adjectives to the
+        passed song.
+    """
+    songtext = song_information.get_songtext(song)
+    adjectives = find_repeated_adjectives(songtext)
     similar_songs = []
     for child in root:
-        if song != child:
+        if child != song:
             songtext_child = song_information.get_songtext(child)
-            main_topics_child = find_main_adjectives(songtext_child)
-            for topic in main_topics_child:
-                if topic in main_topics:
-                    song_artist = "'" + song_information.get_songtitle(child) + "' by " + song_information.get_artist(child)
+            adjectives_child = find_repeated_adjectives(songtext_child)
+            for topic in adjectives_child:
+                if topic in adjectives:
+                    song_artist = ("'" + song_information.get_songtitle(child)
+                                + "' by " + song_information.get_artist(child))
                     similar_songs.append(song_artist)
-        
-    result_string = ""
-    if len(similar_songs) == 1:
-        result_string = "If you like '" + songtitle + "' by " + artist + ", you might like " + str(similar_songs[0]) 
-    elif len(similar_songs) > 1:
-        duplicates = get_duplicates(similar_songs)
-        if len(duplicates) > 0:
-            duplicates_string = "If you like '" + songtitle + "' by " + artist + ", you might really like " + ", ".join(duplicates)
-            other_similar_songs = get_similar_songs_without_duplicates(duplicates, similar_songs)
-            other_similar_songs_string = "If you like '" + songtitle + "' by " + artist + ", you might like " + ", ".join(other_similar_songs)
+    result = get_duplicates(similar_songs)
+    return result
 
-            result_string = duplicates_string + '\n' + other_similar_songs_string
+def query_get_song_recommendation(songtitle, artist, root):
+    """Tries to recommend similar songs to the requested song.
+    Args:
+        songtitle: A string containing a song name.
+        artist: A string containing the artist of the song.
+        root: The root of the ElementTree.
+
+    Returns:
+        A string message including which similar song(s) to the requested song
+        the inquirer could like or an apology if either the song could not be
+        found in the corpora or if a similar song could not be found.
+    """
+    for child in root:
+        if (song_information.get_songtitle(child) == songtitle
+                and song_information.get_artist(child) == artist):
+            song = child
         else:
-            result_string = "If you like '" + songtitle + "' by " + artist + ", you might like " + ", ".join(similar_songs)
+            answer = ("Sorry, '" + songtitle + "' by " + artist
+                        + "could not be found in this corpora")
+    similar_songs = find_similar_songs(song, root)
+    if len(similar_songs) > 0:
+        answer = ("If you like '" + songtitle + "' by " + artist
+                    + ", you might like " + ", ".join(similar_songs))
     else:
-        result_string = "I'm sorry, there is no similar song to '" + songtitle + "' by " + artist + " in this database"
-        
-    return result_string
+        answer = ("Sorry, there is no similar song to '" + songtitle + "' by "
+                    + artist + " in this ccorpora")
+    return answer
