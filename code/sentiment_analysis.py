@@ -1,9 +1,9 @@
-"""This module tests the module songtext_sentiments and exports the results.
+"""This module tests the module lyrics_sentiments and exports the results.
 """
 
 import xml.etree.ElementTree as ET
 import pandas as pd
-import songtext_sentiment
+import lyrics_sentiment
 import song_information
 
 # Insert the path to your XML corpus and comment in the next line
@@ -11,14 +11,14 @@ import song_information
 root = tree.getroot()
 
 # Some example queries
-print(songtext_sentiment.query_sentiment("Animal", "Troye Sivan", root))
+print(lyrics_sentiment.query_sentiment("Animal", "Troye Sivan", root))
 print("")
-print(songtext_sentiment.query_sentiment("Paralyzed", "NF", root))
+print(lyrics_sentiment.query_sentiment("Paralyzed", "NF", root))
 print("")
 
-print(songtext_sentiment.query_get_song_recommendation("Lover", "Taylor Swift", root))
+print(lyrics_sentiment.query_get_song_recommendation("Lover", "Taylor Swift", root))
 print("")
-print(songtext_sentiment.query_get_song_recommendation("Returns", "NF", root))
+print(lyrics_sentiment.query_get_song_recommendation("Returns", "NF", root))
 print("")
 
 
@@ -30,9 +30,9 @@ similar_sentiment = []
 for child in root:
     songtitle = song_information.get_songtitle(child)
     artist = song_information.get_artist(child)
-    songtext = song_information.get_songtext(child)
-    polarity = songtext_sentiment.song_polarity(songtext)
-    similar_song = songtext_sentiment.similar_sentiment(child, root)
+    lyrics = song_information.get_lyrics(child)
+    polarity = lyrics_sentiment.song_polarity(lyrics)
+    similar_song = lyrics_sentiment.similar_sentiment(child, root)
     songtitles.append(songtitle)
     artists.append(artist)
     polarities.append(polarity)
