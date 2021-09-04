@@ -2,8 +2,8 @@
 
    Functions:
 
-   get_songtext(xml.etree.ElementTree.Element) -> string
-   or get_songtext(xml.etree.ElementTree.Element, string, string) -> string
+   get_(xml.etree.ElementTree.Element) -> string
+   or get_lyrics(xml.etree.ElementTree.Element, string, string) -> string
 
    get_songtitle(xml.etree.ElementTree.Elementt) -> string
    or get_songtitle(xml.etree.ElementTree.Elementt, string) -> string
@@ -12,8 +12,8 @@
    or get_artist(xml.etree.ElementTree.Element, string) -> string
 """
 
-def get_songtext(et_element, songtitle=None, artist=None):
-    """Finds the songtext of a song.
+def get_lyrics(et_element, songtitle=None, artist=None):
+    """Finds the lyrics of a song.
 
     Args:
         et_element: A xml.etree.ElementTree.Element. If this is the only passed
@@ -21,14 +21,14 @@ def get_songtext(et_element, songtitle=None, artist=None):
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
         songtitle: Optional; A string containing the title of the song which is
-            necessary to find the songtext in the XML tree if only the root
+            necessary to find the lyrics in the XML tree if only the root
             is passed.
         artist: Optional; A string containing the artist of the song which is
-            necessary to find the songtext in the XML tree if only the root
+            necessary to find the lyrics in the XML tree if only the root
             is passed.
 
     Returns:
-        A string containing the corresponding songtext either to the child of
+        A string containing the corresponding lyrics either to the child of
         the tree that was passed or to the songtitle and artist that were
         passed.
     """
@@ -37,12 +37,12 @@ def get_songtext(et_element, songtitle=None, artist=None):
             artist_child = child.find("artist")
             if ("".join(child.attrib.values()) == songtitle
                     and "".join(artist_child.attrib.values()) == artist):
-                songtext = child.find("songtext").text
+                lyrics = child.find("lyrics").text
     else:
-        songtext = et_element.find("songtext").text
-    return songtext
+        lyrics = et_element.find("lyrics").text
+    return lyrics
 
-def get_songtitle(et_element, songtext=None):
+def get_songtitle(et_element, lyrics=None):
     """Finds the songtitle of a song.
 
     Args:
@@ -50,23 +50,23 @@ def get_songtitle(et_element, songtext=None):
             parameter, it has to be a child of an ElementTree.
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
-        songtext: Optional; A string containing the songtext of a song which
-            is necessary to find the songtitle of this songtext in the XML tree
+        lyrics: Optional; A string containing the lyrics of a song which
+            is necessary to find the songtitle of this lyrics in the XML tree
             if only the root is passed.
 
     Returns:
         A string containing the corresponding songtitle either to the child of
-        the tree that was passed or to the songtext that was passed.
+        the tree that was passed or to the lyrics that was passed.
     """
-    if songtext is not None:
+    if lyrics is not None:
         for child in et_element:
-            if get_songtext(child) == songtext:
+            if get_lyrics(child) == lyrics:
                 songtitle = "".join(child.attrib.values())
     else:
         songtitle = "".join(et_element.attrib.values())
     return songtitle
 
-def get_artist(et_element, songtext=None):
+def get_artist(et_element, lyrics=None):
     """Finds the artist of a song.
 
     Args:
@@ -74,17 +74,17 @@ def get_artist(et_element, songtext=None):
             parameter, it has to be a child of an ElementTree.
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
-        songtext: Optional; A string containing the songtext of a song which
-            is necessary to find the artist of this songtext in the XML tree
+        lyrics: Optional; A string containing the lyrics of a song which
+            is necessary to find the artist of this lyrics in the XML tree
             if only the root is passed.
 
     Returns:
         A string containing the corresponding artist either to the child of the
-        tree that was passed or to the songtext that was passed.
+        tree that was passed or to the lyrics that was passed.
     """
-    if songtext is not None:
+    if lyrics is not None:
         for child in et_element:
-            if get_songtext(child) == songtext:
+            if get_lyrics(child) == lyrics:
                 artist_child = child.find("artist")
                 artist = "".join(artist_child.attrib.values())
     else:
