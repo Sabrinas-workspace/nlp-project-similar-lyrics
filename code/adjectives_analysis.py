@@ -1,9 +1,9 @@
-"""This module tests the module songtext_adjectives and exports the results.
+"""This module tests the module lyrics_adjectives and exports the results.
 """
 
 import xml.etree.ElementTree as ET
 import pandas as pd
-import songtext_adjectives
+import lyrics_adjectives
 import song_information
 
 # Insert the path to your XML corpus and comment in the next line
@@ -11,11 +11,11 @@ import song_information
 root = tree.getroot()
 
 # Some example queries
-print(songtext_adjectives.query_get_song_recommendation("Demons", "Imagine Dragons", root))
+print(lyrics_adjectives.query_get_song_recommendation("Demons", "Imagine Dragons", root))
 print("")
-print(songtext_adjectives.query_get_song_recommendation("Time", "NF", root))
+print(lyrics_adjectives.query_get_song_recommendation("Time", "NF", root))
 print("")
-print(songtext_adjectives.query_get_song_recommendation("Bad at love", "Halsey", root))
+print(lyrics_adjectives.query_get_song_recommendation("Bad at love", "Halsey", root))
 print("")
 
 
@@ -26,7 +26,7 @@ similar_adjectives = []
 for child in root:
     songtitle = song_information.get_songtitle(child)
     artist = song_information.get_artist(child)
-    similar_songs = songtext_adjectives.find_similar_songs(child, root)
+    similar_songs = lyrics_adjectives.find_similar_songs(child, root)
     songtitles.append(songtitle)
     artists.append(artist)
     similar_adjectives.append(similar_songs)
