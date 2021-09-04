@@ -2,15 +2,15 @@
     <song name="This is a song">
         <artist name= "This is an artist">
         </artist>
-        <songtext>
-            This is a songtext
-        </songtext>
+        <lyrics>
+            These are lyrics
+        </lyrics>
     </song>
     <song name="This is another song">
         <artist name= "This is another artist">
         </artist>
-        <songtext>
-           This is another songtext
-        </songtext>
+        <lyrics>
+           These are other lyrics
+        </lyrics>
     </song>
 </data>
