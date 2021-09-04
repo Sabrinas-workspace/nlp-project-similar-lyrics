@@ -1,4 +1,4 @@
-"""This module finds topics of songs and finds songtexts with similar topics.
+"""This module finds topics of songs and finds lyricss with similar topics.
 
    Functions:
    The following functions can be used without a XML tree:
@@ -50,74 +50,74 @@ to_add = ["anything", "arm", "ay", "bag", "believin", "bit", "breakin", "bunch",
 for word in to_add:
     STOP_WORDS.add(word)
 
-def get_nouns(songtext):
-    """Finds all nouns from the songtext.
+def get_nouns(lyrics):
+    """Finds all nouns from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A list of all nouns found in the songtext.
+        A list of all nouns found in the lyrics.
     """
-    doc = nlp(songtext.lower())
+    doc = nlp(lyrics.lower())
     all_nouns = [token.lemma_ for token in doc if token.pos_ == "NOUN"
                     and token.lemma_ not in STOP_WORDS]
     return all_nouns
 
-def nouns_sorted(songtext):
-    """Creates a Counter of all nouns from the songtext.
+def nouns_sorted(lyrics):
+    """Creates a Counter of all nouns from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A Counter of all nouns found in the songtext.
+        A Counter of all nouns found in the lyrics.
     """
-    nouns = get_nouns(songtext)
+    nouns = get_nouns(lyrics)
     sorted_nouns = Counter(nouns)
     return sorted_nouns
 
-def find_topics(songtext):
-    """Creates a list of all repeating nouns from the songtext.
+def find_topics(lyrics):
+    """Creates a list of all repeating nouns from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A list of all nouns found more than once in the songtext.
+        A list of all nouns found more than once in the lyrics.
     """
-    nouns = nouns_sorted(songtext)
+    nouns = nouns_sorted(lyrics)
     topics = [key for key, value  in nouns.most_common() if value > 1]
     return topics
 
-def find_fewer_topics(songtext):
-    """Creates a list of the most frequent nouns from the songtext.
+def find_fewer_topics(lyrics):
+    """Creates a list of the most frequent nouns from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A list of all nouns found more than twice in the songtext.
+        A list of all nouns found more than twice in the lyrics.
     """
-    nouns = nouns_sorted(songtext)
+    nouns = nouns_sorted(lyrics)
     fewer_topics = [key for key, value  in nouns.most_common() if value > 2]
     return fewer_topics
 
-def find_main_topics(songtext):
-    """Creates a list of all main topics of the songtext.
+def find_main_topics(lyrics):
+    """Creates a list of all main topics of the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
         Depending on the size of the list, either the return list of find_topics
         or the return list of find_fewer_topics.
     """
-    sorted_topics = find_topics(songtext)
+    sorted_topics = find_topics(lyrics)
     if len(sorted_topics) <= 5:
         main_topics = sorted_topics
     else:
-        main_topics = find_fewer_topics(songtext)
+        main_topics = find_fewer_topics(lyrics)
         if len(main_topics) < 2:
             main_topics = sorted_topics
     return main_topics
@@ -166,13 +166,13 @@ def find_similar_songs(song, root):
     Returns:
         A list of all songs that have similar main topics to the passed song.
     """
-    songtext = song_information.get_songtext(song)
-    main_topics = find_main_topics(songtext)
+    lyrics = song_information.get_lyrics(song)
+    main_topics = find_main_topics(lyrics)
     similar_songs = []
     for child in root:
         if child != song:
-            songtext_child = song_information.get_songtext(child)
-            main_topics_child = find_main_topics(songtext_child)
+            lyrics_child = song_information.get_lyrics(child)
+            main_topics_child = find_main_topics(lyrics_child)
             for topic in main_topics_child:
                 if topic in main_topics:
                     song_artist = ("'" + song_information.get_songtitle(child)
@@ -279,8 +279,8 @@ def query_find_song_about(topic, root):
     """
     songs = []
     for child in root:
-        songtext = song_information.get_songtext(child)
-        main_topics = find_main_topics(songtext)
+        lyrics = song_information.get_lyrics(child)
+        main_topics = find_main_topics(lyrics)
         if topic in main_topics:
             song_artist = ("'" + song_information.get_songtitle(child)
                         + "' by " + song_information.get_artist(child))
@@ -295,7 +295,7 @@ def query_find_song_about(topic, root):
     return answer
 
 def query_find_topics_of_artist(artist, root):
-    """Tries to find common topics of the songtexts from an artist."
+    """Tries to find common topics of the lyricss from an artist."
 
     Args:
         artist: A string containing a music artist.
@@ -313,8 +313,8 @@ def query_find_topics_of_artist(artist, root):
         artist_child = song_information.get_artist(child)
         if artist_child == artist:
             found = True
-            songtext = song_information.get_songtext(child)
-            song_topics = find_topics(songtext)
+            lyrics = song_information.get_lyrics(child)
+            song_topics = find_topics(lyrics)
             for topic in song_topics:
                 if topic in topics and topic not in repeating_topics:
                     repeating_topics.append(topic)
