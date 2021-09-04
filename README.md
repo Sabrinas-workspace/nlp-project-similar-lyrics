@@ -1,4 +1,4 @@
-# nlp-project-similar-songtexts
+# nlp-project-similar-lyrics
 
 **About the project**
 
