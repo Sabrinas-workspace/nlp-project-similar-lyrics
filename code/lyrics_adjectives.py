@@ -1,8 +1,8 @@
 """This module finds similar songs based on common adjectives.
 
-   Note: This module is based on the module songtext_topics but is not included
-   in or combined with songtext_topics to avoid confusion and to allow the
-   possibility of working with only one method to find similar songtext since
+   Note: This module is based on the module lyrics_topics but is not included
+   in or combined with lyrics_topics to avoid confusion and to allow the
+   possibility of working with only one method to find similar lyrics since
    they do not lead to equally good or bad results.
 
    Functions:
@@ -25,42 +25,42 @@ import song_information
 
 nlp = spacy.load(("en_core_web_sm"))
 
-def get_adjectives(songtext):
-    """Finds all adjectives from the songtext.
+def get_adjectives(lyrics):
+    """Finds all adjectives from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A list of all adjectives found in the songtext.
+        A list of all adjectives found in the lyrics.
     """
-    doc = nlp(songtext.lower())
+    doc = nlp(lyrics.lower())
     all_adjectives = [token.lemma_ for token in doc if token.pos_ == "ADJ"]
     return all_adjectives
 
-def adjectives_sorted(songtext):
-    """Creates a Counter of all adjectives from the songtext.
+def adjectives_sorted(lyrics):
+    """Creates a Counter of all adjectives from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A Counter of all adjectives found in the songtext.
+        A Counter of all adjectives found in the lyrics.
     """
-    adjectives = get_adjectives(songtext)
+    adjectives = get_adjectives(lyrics)
     sorted_adjectives = Counter(adjectives)
     return sorted_adjectives
 
-def find_repeated_adjectives(songtext):
-    """Creates a list of all repeating adjectives from the songtext.
+def find_repeated_adjectives(lyrics):
+    """Creates a list of all repeating adjectives from the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A list of all adjectives found more than once in the songtext.
+        A list of all adjectives found more than once in the lyrics.
     """
-    adjectives = adjectives_sorted(songtext)
+    adjectives = adjectives_sorted(lyrics)
     repeated_adjectives = [key for key, value  in adjectives.most_common()
                             if value > 1]
     return repeated_adjectives
@@ -91,13 +91,13 @@ def find_similar_songs(song, root):
         A list of all songs that have at least two common adjectives to the
         passed song.
     """
-    songtext = song_information.get_songtext(song)
-    adjectives = find_repeated_adjectives(songtext)
+    lyrics = song_information.get_lyrics(song)
+    adjectives = find_repeated_adjectives(lyrics)
     similar_songs = []
     for child in root:
         if child != song:
-            songtext_child = song_information.get_songtext(child)
-            adjectives_child = find_repeated_adjectives(songtext_child)
+            lyrics_child = song_information.get_lyrics(child)
+            adjectives_child = find_repeated_adjectives(lyrics_child)
             for topic in adjectives_child:
                 if topic in adjectives:
                     song_artist = ("'" + song_information.get_songtitle(child)
