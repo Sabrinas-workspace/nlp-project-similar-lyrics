@@ -1,9 +1,9 @@
-"""This module tests the module songtext_topics and exports the results.
+"""This module tests the module lyrics_topics and exports the results.
 """
 
 import xml.etree.ElementTree as ET
 import pandas as pd
-import songtext_topics
+import lyrics_topics
 import song_information
 
 # Insert the path to your XML corpus and comment in the next line
@@ -11,23 +11,23 @@ import song_information
 root = tree.getroot()
 
 # Some example queries
-print(songtext_topics.query_get_song_recommendation("Billie Jean", "Michael Jackson", root))
+print(lyrics_topics.query_get_song_recommendation("Billie Jean", "Michael Jackson", root))
 print("")
-print(songtext_topics.query_get_song_recommendation("My Stress", "NF", root))
-print("")
-
-print(songtext_topics.query_find_song_about("love", root))
-print("")
-print(songtext_topics.query_find_song_about("hate", root))
-print("")
-print(songtext_topics.query_find_song_about("pain", root))
+print(lyrics_topics.query_get_song_recommendation("My Stress", "NF", root))
 print("")
 
-print(songtext_topics.query_find_topics_of_artist("NF", root))
+print(lyrics_topics.query_find_song_about("love", root))
 print("")
-print(songtext_topics.query_find_topics_of_artist("Troye Sivan", root))
+print(lyrics_topics.query_find_song_about("hate", root))
 print("")
-print(songtext_topics.query_find_topics_of_artist("Tina Turner", root))
+print(lyrics_topics.query_find_song_about("pain", root))
+print("")
+
+print(lyrics_topics.query_find_topics_of_artist("NF", root))
+print("")
+print(lyrics_topics.query_find_topics_of_artist("Troye Sivan", root))
+print("")
+print(lyrics_topics.query_find_topics_of_artist("Tina Turner", root))
 print("")
 
 
@@ -39,8 +39,8 @@ might_have_similar_topics = []
 for child in root:
     songtitle = song_information.get_songtitle(child)
     artist = song_information.get_artist(child)
-    more_similar_songs = songtext_topics.more_similar_songs(child, root)
-    less_similar_songs = songtext_topics.less_similar_songs(child, root)
+    more_similar_songs = lyrics_topics.more_similar_songs(child, root)
+    less_similar_songs = lyrics_topics.less_similar_songs(child, root)
     songtitles.append(songtitle)
     artists.append(artist)
     similar_topics.append(more_similar_songs)
