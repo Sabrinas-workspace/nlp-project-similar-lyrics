@@ -19,16 +19,16 @@
 from textblob import TextBlob
 import song_information
 
-def song_polarity(songtext):
-    """Calculates the polarity of a songtext.
+def song_polarity(lyrics):
+    """Calculates the polarity of the lyrics.
 
     Args:
-        songtext: A string containing the songtext of a song.
+        lyrics: A string containing the lyrics of a song.
 
     Returns:
-        A float representing the polarity value of the songtext.
+        A float representing the polarity value of the lyrics.
     """
-    lines = songtext.split('\n')
+    lines = lyrics.split('\n')
     polarity_analysis = 0
     count = 0
     for line in lines:
@@ -53,10 +53,10 @@ def query_sentiment(songtitle, artist, root):
         if (song_information.get_songtitle(child) == songtitle
                 and song_information.get_artist(child) == artist):
             song = child
-    songtext = song_information.get_songtext(song)
-    polarity = song_polarity(songtext)
-    songtitle = song_information.get_songtitle(root, songtext)
-    artist = song_information.get_artist(root, songtext)
+    lyrics = song_information.get_lyrics(song)
+    polarity = song_polarity(lyrics)
+    songtitle = song_information.get_songtitle(root, lyrics)
+    artist = song_information.get_artist(root, lyrics)
     if polarity < 0:
         result = ("The sentiment of '" + songtitle + "' by " + artist +
                     " is negative")
@@ -85,8 +85,8 @@ def pos_minimum_difference(song, polarity, root):
     minimum = 10.0 # A number which is higher than the polarity values
     for child in root:
         if child != song:
-            songtext_child = song_information.get_songtext(child)
-            polarity_child = song_polarity(songtext_child)
+            lyrics_child = song_information.get_lyrics(child)
+            polarity_child = song_polarity(lyrics_child)
             if polarity_child > 0:
                 difference = polarity - polarity_child
                 if abs(difference) < minimum:
@@ -111,8 +111,8 @@ def neg_minimum_difference(song, polarity, root):
     minimum = 10.0 # A number which is higher than the polarity values
     for child in root:
         if child != song:
-            songtext_child = song_information.get_songtext(child)
-            polarity_child = song_polarity(songtext_child)
+            lyrics_child = song_information.get_lyrics(child)
+            polarity_child = song_polarity(lyrics_child)
             if polarity_child < 0:
                 difference = abs(polarity - polarity_child)
                 if abs(difference) < minimum:
@@ -132,8 +132,8 @@ def similar_sentiment(song, root):
         A string containing the song with the most similar polarity to the
         passed song.
     """
-    songtext = song_information.get_songtext(song)
-    polarity = song_polarity(songtext)
+    lyrics = song_information.get_lyrics(song)
+    polarity = song_polarity(lyrics)
     if polarity > 0:
         similar_song = pos_minimum_difference(song, polarity, root)
         result = ("'" + song_information.get_songtitle(similar_song) + "' by "
@@ -159,8 +159,8 @@ def query_get_song_recommendation(songtitle, artist, root):
         if (song_information.get_songtitle(child) == songtitle
                 and song_information.get_artist(child) == artist):
             song = child
-    songtext = song_information.get_songtext(song)
-    polarity = song_polarity(songtext)
+    lyrics = song_information.get_lyrics(song)
+    polarity = song_polarity(lyrics)
     if polarity > 0:
         similar_song = pos_minimum_difference(song, polarity, root)
         result = ("'" + song_information.get_songtitle(similar_song) + "' by "
