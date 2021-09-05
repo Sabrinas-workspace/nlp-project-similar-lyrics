@@ -87,7 +87,7 @@ combine = {'Songtitle': songtitles,
          'Similar songs (same result)': same_result
         }
 
-df_combine = pd.DataFrame(songs, columns = ['Songtitle', 'Artist',
+df_combine = pd.DataFrame(combine, columns = ['Songtitle', 'Artist',
                     'Similar songs (same result)'])
 
 # Insert the path to the folder in which you want to save the results file
