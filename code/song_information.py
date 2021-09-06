@@ -1,4 +1,4 @@
-"""This module can access the main information of a song stored in a XML file.
+"""This module can access the main information of a song stored in an XML file.
 
    Functions:
 
@@ -16,7 +16,7 @@ def get_lyrics(et_element, songtitle=None, artist=None):
     """Finds the lyrics of a song.
 
     Args:
-        et_element: A xml.etree.ElementTree.Element. If this is the only passed
+        et_element: An xml.etree.ElementTree.Element. If this is the only passed
             parameter, it has to be a child of an ElementTree.
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
@@ -29,7 +29,7 @@ def get_lyrics(et_element, songtitle=None, artist=None):
 
     Returns:
         A string containing the corresponding lyrics either to the child of
-        the tree that was passed or to the songtitle and artist that were
+        the tree that was passed or to the song title and artist that were
         passed.
     """
     if songtitle is not None and artist is not None:
@@ -43,19 +43,19 @@ def get_lyrics(et_element, songtitle=None, artist=None):
     return lyrics
 
 def get_songtitle(et_element, lyrics=None):
-    """Finds the songtitle of a song.
+    """Finds the song title of a song.
 
     Args:
-        et_element: A xml.etree.ElementTree.Element. If this is the only passed
+        et_element: An xml.etree.ElementTree.Element. If this is the only passed
             parameter, it has to be a child of an ElementTree.
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
         lyrics: Optional; A string containing the lyrics of a song which
-            is necessary to find the songtitle of this lyrics in the XML tree
+            is necessary to find the song title of this lyrics in the XML tree
             if only the root is passed.
 
     Returns:
-        A string containing the corresponding songtitle either to the child of
+        A string containing the corresponding song title either to the child of
         the tree that was passed or to the lyrics that was passed.
     """
     if lyrics is not None:
@@ -70,7 +70,7 @@ def get_artist(et_element, lyrics=None):
     """Finds the artist of a song.
 
     Args:
-        et_element: A xml.etree.ElementTree.Element. If this is the only passed
+        et_element: An xml.etree.ElementTree.Element. If this is the only passed
             parameter, it has to be a child of an ElementTree.
             If this is not the only passed parameter, it has to be the root of
             an ElementTree.
