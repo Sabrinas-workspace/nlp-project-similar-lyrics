@@ -1,7 +1,7 @@
 """This module finds topics of songs and finds lyricss with similar topics.
 
    Functions:
-   The following functions can be used without a XML tree:
+   The following functions can be used without an XML tree:
    get_nouns(string) -> list
    nouns_sorted(string) -> Counter
    find_topics(string) -> list
@@ -10,7 +10,7 @@
    get_duplicates(list) -> list
    without_duplicates(list, list) -> list
 
-   The following functions can only be used with a XML tree:
+   The following functions can only be used with an XML tree:
    find_similar_songs(xml.etree.ElementTree.Element,
                        xml.etree.ElementTree.Element) -> list
    more_similar_songs(xml.etree.ElementTree.Element,
@@ -126,7 +126,7 @@ def get_duplicates(song_list):
     """Finds all duplicates in a list.
 
     Args:
-        song_list: Usually a list of "song by artist" strings which is the
+        song_list: A list of "song by artist" strings which is the
         return list of find_similar_songs.
 
     Returns:
@@ -234,9 +234,9 @@ def query_get_song_recommendation(songtitle, artist, root):
         root: The root of the ElementTree.
 
     Returns:
-        A string message including how much the inquirer could like the similar
-        song(s) or an apology if either the song could not be found in the
-        corpus or if a similar song could not be found.
+        A string message that includes how much the inquirer could like the
+        similar song(s) or an apology if either the song could not be found in
+        the corpus or if a similar song could not be found.
     """
     for child in root:
         if (song_information.get_songtitle(child) == songtitle
