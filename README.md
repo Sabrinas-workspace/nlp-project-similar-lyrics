@@ -7,7 +7,7 @@ methods. For now I worked with spacy for extracting repeating nouns and adjectiv
 lyrics, as well as with textblob for the sentiment analysis of lyrics. 
 I plan to expand this project with new methods in the future.
 For all methods I only consider the lyrics of the songs, and not other information like
-the Genre of the song.
+the genre of the song.
 
 I am working alone on this project and it is my project work for my university class
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/.
