@@ -88,8 +88,8 @@ def find_similar_songs(song, root):
         root: The root of the ElementTree which has the child song.
 
     Returns:
-        A list of all songs that have at least two common adjectives to the
-        passed song.
+        A list of all songs that have at least two adjectives in common 
+        with the passed song.
     """
     lyrics = song_information.get_lyrics(song)
     adjectives = find_repeated_adjectives(lyrics)
@@ -115,7 +115,7 @@ def query_get_song_recommendation(songtitle, artist, root):
 
     Returns:
         A string message including which similar song(s) to the requested song
-        the inquirer could like or an apology if either the song could not be
+        the inquirer might like or an apology if either the song could not be
         found in the corpus or if a similar song could not be found.
     """
     for child in root:
