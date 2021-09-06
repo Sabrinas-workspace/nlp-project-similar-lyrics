@@ -6,13 +6,13 @@
    they do not lead to equally good or bad results.
 
    Functions:
-   The following functions can be used without a XML tree:
+   The following functions can be used without an XML tree:
    get_adjectives(string) -> list
    adjectives_sorted(string) -> Counter
    find_repeated_adjectives(string) -> list
    get_duplicates(list) -> list
 
-   The following functions can only be used with a XML tree:
+   The following functions can only be used with an XML tree:
    find_similar_songs(xml.etree.ElementTree.Element,
                         xml.etree.ElementTree.Element) -> list
    query_get_song_recommendation(string, string, xml.etree.ElementTree.Element)
