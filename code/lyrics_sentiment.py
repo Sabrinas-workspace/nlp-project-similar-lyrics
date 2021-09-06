@@ -69,8 +69,8 @@ def query_sentiment(songtitle, artist, root):
     return result
 
 def pos_minimum_difference(song, polarity, root):
-    """Calculates which song the most similar polarity to the passed polarity
-    has.
+    """Calculates which song has the most similar polarity to the passed
+    polarity.
 
     Args:
         song: A child of an ElementTree.
@@ -95,8 +95,8 @@ def pos_minimum_difference(song, polarity, root):
     return minimum_song
 
 def neg_minimum_difference(song, polarity, root):
-    """Calculates which song the most similar polarity to the passed polarity
-    has.
+    """Calculates which song has the most similar polarity to the passed
+    polarity.
 
     Args:
         song: A child of an ElementTree.
