@@ -11,7 +11,7 @@ import lyrics_sentiment
 # tree = ET.parse('PATH')
 root = tree.getroot()
 
-# Creates dataframe to compare the results of each method
+# Creates a data frame to compare the results of each method
 songtitles = []
 artists = []
 similar_topics = []
@@ -51,8 +51,8 @@ df_compare = pd.DataFrame(songs, columns = ['Songtitle', 'Artist',
 # df_compare.to_csv (r'PATH/compare_results.csv', sep= ';', index = False, header=True)
 print(df_compare)
 
-# To combine the results, creates a new dataframe with only those similar songs
-# that were a result for similar song with more than one method
+# Creates a new data frame that combines the results, and now includes only
+# those similar songs that were a similar song result with more than one method
 
 same_result = []
 for ind in df_compare.index:
