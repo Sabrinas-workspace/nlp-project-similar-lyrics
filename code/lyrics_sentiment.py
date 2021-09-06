@@ -1,10 +1,10 @@
 """This module analyses a song's sentiment and based on that finds similar songs.
 
    Functions:
-   The following function can be used without a XML tree:
+   The following function can be used without an XML tree:
    song_polarity(string) -> float
 
-   The following functions can only be used with a XML tree:
+   The following functions can only be used with an XML tree:
    query_sentiment(string, string, xml.etree.ElementTree.Element) -> string
    pos_minimum_difference(xml.etree.ElementTree.Element, float,
                 xml.etree.ElementTree.Element) -> xml.etree.ElementTree.Element
