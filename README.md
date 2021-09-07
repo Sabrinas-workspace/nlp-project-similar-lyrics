@@ -13,7 +13,7 @@ I am working alone on this project and it is my project work for my university c
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/.
 
 
-**The data**
+**The data** <br>
 <br>
 For my project I created a corpus of lyrics which I cannot include do to copyright 
 reasons. However, now follow instructions on how you can create a corpus for
