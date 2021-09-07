@@ -13,8 +13,8 @@ I am working alone on this project and it is my project work for my university c
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/. <br>
 <br>
 
-**The data** <br>
-<br>
+**The data** 
+
 For my project I created a corpus of lyrics which I cannot include do to copyright 
 reasons. However, now follow instructions on how you can create a corpus for
 this project yourself.
@@ -26,8 +26,8 @@ text. I thought about using a web scrapper but since I wanted the exact structur
 can see in the file, using it would have been more time-consuming.<br>
 <br>
 
-**How you can try out the code yourself** <br>
-<br>
+**How you can try out the code yourself** 
+
 
 You can find all the packages I used for this project in the requirements.txt file which
 you can install with the following command: pip install -r requirements.txt.
@@ -55,8 +55,8 @@ with which you can for example get song recommendations for single songs or find
 about a certain topic, you can also take a look at the next section where I explain how
 to use each method independently. <br>
 <br>
-**Single methods** <br>
-<br>
+**Single methods** 
+
 
 Find similar songs based on main topics 
 
