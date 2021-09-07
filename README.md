@@ -1,6 +1,6 @@
 # nlp-project-similar-lyrics
 
-<h5> **About the project** 5</h5>
+**About the project** <br>
 
 The goal of my project is to find similar songs to a song with the NLP
 methods. For now I worked with spacy for extracting repeating nouns and adjectives from 
