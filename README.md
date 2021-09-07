@@ -14,7 +14,7 @@ I am working alone on this project and it is my project work for my university c
 
 
 **The data**
-
+<br>
 For my project I created a corpus of lyrics which I cannot include do to copyright 
 reasons. However, now follow instructions on how you can create a corpus for
 this project yourself.
