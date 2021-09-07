@@ -1,7 +1,7 @@
 # nlp-project-similar-lyrics
 
 **About the project** <br>
-
+<br>
 The goal of my project is to find similar songs to a song with the NLP
 methods. For now I worked with spacy for extracting repeating nouns and adjectives from 
 lyrics, as well as with textblob for the sentiment analysis of lyrics. 
