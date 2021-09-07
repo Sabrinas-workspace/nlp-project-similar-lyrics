@@ -55,7 +55,8 @@ with which you can for example get song recommendations for single songs or find
 about a certain topic, you can also take a look at the next section where I explain how
 to use each method independently. <br>
 <br>
-**Single methods** 
+
+**Single methods** <br>
 
 
 Find similar songs based on main topics 
