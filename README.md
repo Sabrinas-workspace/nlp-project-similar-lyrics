@@ -11,7 +11,7 @@ the genre of the song.
 
 I am working alone on this project and it is my project work for my university class
 "Advanced Natural Language Processing with Python": https://esther.seyffarth.one/classes/2021-advanced-nlp/. <br>
-
+<br>
 
 **The data** <br>
 <br>
@@ -24,7 +24,7 @@ Because I wanted to work with XML, it was the easiest way for me to just copy an
 the lyrics and delete "Chorus", "Verse", "Bridge" etc., so that it is just one connected
 text. I thought about using a web scrapper but since I wanted the exact structure you 
 can see in the file, using it would have been more time-consuming.<br>
-
+<br>
 
 **How you can try out the code yourself** <br>
 <br>
@@ -54,7 +54,7 @@ If you want to try out each method seperately first (recommended) and also use t
 with which you can for example get song recommendations for single songs or find songs
 about a certain topic, you can also take a look at the next section where I explain how
 to use each method independently. <br>
-
+<br>
 **Single methods** <br>
 <br>
 
@@ -68,7 +68,7 @@ and example queries. Do not forget to add the path to your corpus
 and the path to the directory in which you want to save the results, to the file topics_analysis.
 You can easily find where you have to insert your path by searching for "PATH". You still need to comment in those lines.
 NLP method: extract main topics from a text with spacy <br>
-
+<br>
 Find similar songs based on repeating adjectives
 
 This method is based on the first method and has similar but fewer functions. 
@@ -78,7 +78,7 @@ Do not forget to add the path to your corpus and the path to the directory in
 which you want to save the results, to the file adjectives_analysis.
 You can easily find where you have to insert your path by searching for "PATH". You still need to comment in those lines.
 NLP method: extract repeating adjectives from a text with spacy <br>
-
+<br>
 Find similar songs based on the same sentiment 
 
 This method differs from the other methods and uses sentiment analysis to find similar songs.
